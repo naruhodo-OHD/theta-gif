@@ -162,8 +162,8 @@ gl.onDocumentMouseMove = function(touch) {
 
 	if ( gl.isUserInteracting === true ) {
 
-		gl.lon = -touch.deltaX * 0.1 + onPointerDownLon;
-		gl.lat = touch.deltaY * 0.1 + onPointerDownLat;
+		gl.lon = -touch.deltaX * 0.5 + onPointerDownLon;
+		gl.lat = touch.deltaY * 0.5 + onPointerDownLat;
 
 	}
 
