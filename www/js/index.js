@@ -16,6 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+window.onload = function(){
+    app.initialize();
+    $(document).on('tap', '.share', function(){
+        share.shareimg("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D", null);
+    });
+};
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -47,5 +54,3 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
-
-app.initialize();
