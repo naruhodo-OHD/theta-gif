@@ -20,6 +20,10 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+html{
+    font-size: 100% !important;
+}
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
@@ -120,20 +124,28 @@ h1 {
 }
 
 #camera{
-    width: 60%;
-    font-size: 5rem;
+    font-size: 2rem;
     background-image:url("../img/top_camera.png");
     background-size:100% 100%;
+    width: 60%;
     margin: 0 auto;
     margin-top: 115%;
 }
 
 #library{
-    width: 60%;
-    font-size: 5rem;
+    font-size: 2rem;
     background-image:url("../img/top_library.png");
     background-size:100% 100%;
+    width: 60%;
     margin: 0 auto;
-    margin-top: 5rem;
+    margin-top: 2rem;
 
+}
+
+.ui-header{
+    background-color: #78fa00 !important;
+}
+
+.ui-title{
+    color: #fff;
 }
