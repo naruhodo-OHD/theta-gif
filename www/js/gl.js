@@ -149,36 +149,25 @@ gl.onWindowResize = function () {
 
 gl.onDocumentMouseDown = function ( ) {
 
-	event.preventDefault();
-
-    var touch = event.changedTouches[0];
-
 	gl.isUserInteracting = true;
-
-	onPointerDownPointerX = touch.clientX;
-	onPointerDownPointerY = touch.clientY;
 
 	onPointerDownLon = gl.lon;
 	onPointerDownLat = gl.lat;
 
 }
 
-gl.onDocumentMouseMove = function( ) {
-
-	event.preventDefault();
-
-    var touch = event.changedTouches[0];
+gl.onDocumentMouseMove = function(touch) {
 
 	if ( gl.isUserInteracting === true ) {
 
-		gl.lon = ( onPointerDownPointerX - touch.clientX ) * 0.1 + onPointerDownLon;
-		gl.lat = ( touch.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
+		gl.lon = -touch.deltaX * 0.1 + onPointerDownLon;
+		gl.lat = touch.deltaY * 0.1 + onPointerDownLat;
 
 	}
 
 }
 
-gl.onDocumentMouseUp = function( event ) {
+gl.onDocumentMouseUp = function( ) {
 
 	gl.isUserInteractsng = false;
 
@@ -217,17 +206,17 @@ gl.animate = function () {
 
     // Add frames
 	if (gl.isEncodeStarted && ((gl.frames / gl.fps) < gl.timeLimit)) {                                                                                    
-	    var canvas = gl.renderer.domElement;
-        var context = canvas.getContext('2d')
-	    
-        if(frames % 3 == 0) {
+
+        if (gl.frames % 3 == 0) {
+            var canvas = gl.renderer.domElement;
+            var context = canvas.getContext('2d')
             gl.encoder.addFrame(context);
-            console.log('frame added!');
-        };
+            console.log('Added frame!');
+        }
 
         gl.frames++;
 	}
-	if (gl.frames / gl.fps == 10) {
+	if (gl.frames / gl.fps == gl.timeLimit) {
 	    gl.encoder.finish();
 	    gl.result = encode64(gl.encoder.stream().getData());
         container.removeChild(gl.renderer.domElement);
