@@ -11,7 +11,7 @@ app =
   receivedEvent: (id) ->
     parentElement = document.getElementById(id)
     listeningElement = parentElement.querySelector('.listening')
-    receivedElement = parentElement.querySelector('.received'
+    receivedElement = parentElement.querySelector('.received')
 
     listeningElement.setAttribute 'style', 'display:none'
     receivedElement.setAttribute 'style', 'display:block'
