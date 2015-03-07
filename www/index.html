@@ -26,6 +26,11 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <script type="text/javascript" src="js/vendor/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.mobile-1.4.5.min.js"></script>
+				<script type="text/javascript" src="LZWEncoder.js"></script>
+				<script type="text/javascript" src="NeuQuant.js"></script>
+				<script type="text/javascript" src="GIFEncoder.js"></script>
+				<script type="text/javascript" src="b64.js"></script>
+				<script type="text/javascript" src="three.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/vendor/jquery.mobile-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/vendor/jquery.mobile.external-png-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/vendor/jquery.mobile.icons-1.4.5.min.css" />
@@ -54,8 +59,8 @@
 				</section>
 				<section id="action" data-role="page">
 					<div data-role="header"><h1>アクション画面</h1></div>
+					<div id="container"></div>
 					<a id="share" href="#title" data-role="button">共有</a>
-					<button onclick="window.plugins.socialsharing.share(null, 'Android filename', 'data:image/png;base64,R0lGODlhDAAMALMBAP8AAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUKAAEALAAAAAAMAAwAQAQZMMhJK7iY4p3nlZ8XgmNlnibXdVqolmhcRQA7', null)">base64 image only</button>
 				</section>
         <script type="text/javascript" src="cordova.js"></script>
         <!-- <script type="text/javascript" src="js/index.js"></script> -->
