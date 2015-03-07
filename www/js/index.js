@@ -19,7 +19,7 @@
 window.onload = function(){
     app.initialize();
     $(document).on('click', '#share', function(){
-        share.shareimg("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D", null);
+        share.shareimg(gl.result, null);
     });
 };
 
@@ -44,13 +44,18 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        var img = new Image();
+        img.src = 'img/equirectangular.jpg';
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        img.onload = function() {
+            console.log("image loaded!");
+            console.log(img.complete);
+            gl.init(150, 150, img);
+            gl.animate();
+        };
 
         console.log('Received Event: ' + id);
     }
 };
+
+

@@ -32,14 +32,18 @@
         <link rel="stylesheet" type="text/css" href="css/vendor/jquery.mobile.structure-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/vendor/jquery.mobile.theme-1.4.5.min.css" />
         <script type="text/javascript" src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/vendor/jquery.event.dblTap.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.mobile-1.4.5.min.js"></script>
 		<script type="text/javascript" src="js/vendor/LZWEncoder.js"></script>
 		<script type="text/javascript" src="js/vendor/NeuQuant.js"></script>
 		<script type="text/javascript" src="js/vendor/GIFEncoder.js"></script>
 		<script type="text/javascript" src="js/vendor/b64.js"></script>
 		<script type="text/javascript" src="js/vendor/three.min.js"></script>
+		<script type="text/javascript" src="js/vendor/CanvasRenderer.js"></script>
+		<script type="text/javascript" src="js/vendor/Projector.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/share.js"></script>
+        <script type="text/javascript" src="js/gl.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
         <title>Hello World</title>
     </head>
@@ -58,7 +62,7 @@
 				</section>
 				<section id="library" data-role="page">
 					<div data-role="header"><h1>ライブラリ画面</h1></div>
-					<a href="#action" data-role="button">アクション画面へ</a>
+					<a id="action-button" href="#action" data-role="button">アクション画面へ</a>
 				</section>
 				<section id="action" data-role="page">
 					<div data-role="header"><h1>アクション画面</h1></div>

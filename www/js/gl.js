@@ -1,7 +1,19 @@
 var gl = {};
 
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame   || 
+        window.webkitRequestAnimationFrame || 
+        window.mozRequestAnimationFrame    || 
+        window.oRequestAnimationFrame      || 
+        window.msRequestAnimationFrame     || 
+        function(/* function */ callback, /* DOMElement */ element){
+             window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
 gl.frames = 0;
-gl.fps = 0;
+gl.fps = 15;
+gl.timeLimit = 10;
 
 gl.camera = null;
 gl.scene = null;
@@ -21,20 +33,26 @@ gl.onMouseDownLat = 0;
 gl.phi = 0;
 gl.theta = 0;
 
+gl.width = 0;
+gl.height = 0;
+
 gl.result = null;
 
 gl.init = function (width, height, img) {
 
 	var container, mesh;
 
+    gl.width = width;
+    gl.height = height;
+
 	gl.encoder = new GIFEncoder();
 	gl.encoder.setRepeat(0);
 	gl.encoder.setDelay(1/gl.fps * 1000);
-	gl.encoder.setSize(width,height);
+	gl.encoder.setSize(gl.width,gl.height);
 
 	container = document.getElementById( 'container' );
 
-	gl.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1100 );
+	gl.camera = new THREE.PerspectiveCamera( 75, gl.width / gl.height, 1, 1100 );
 	gl.camera.target = new THREE.Vector3( 0, 0, 0 );
 
 	gl.scene = new THREE.Scene();
@@ -42,45 +60,48 @@ gl.init = function (width, height, img) {
 	var geometry = new THREE.SphereGeometry( 500, 60, 40 );
 	geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 
+    var texture = new THREE.Texture(img);
+    texture.needsUpdate = true;
+
 	var material = new THREE.MeshBasicMaterial( {
-		map: THREE.Texture(img)
-	} );
+		map: texture
+	});
 
 	mesh = new THREE.Mesh( geometry, material );
 	
-	scene.add( mesh );
+	gl.scene.add( mesh );
 
-	gl.renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
+	gl.renderer = new THREE.CanvasRenderer({preserveDrawingBuffer: true});
 	gl.renderer.setPixelRatio( window.devicePixelRatio );
-	gl.renderer.setSize( width, height );
+	gl.renderer.setSize( gl.width, gl.height );
 	container.appendChild( gl.renderer.domElement );
 
-	container.addEventListener( 'mousedown', gl.onDocumentMouseDown, false );
-	container.addEventListener( 'mousemove', gl.onDocumentMouseMove, false );
-	container.addEventListener( 'mouseup', gl.onDocumentMouseUp, false );
-	container.addEventListener( 'mousewheel', gl.onDocumentMouseWheel, false );
-	container.addEventListener( 'DOMMouseScroll', gl.onDocumentMouseWheel, false);
+	gl.renderer.domElement.addEventListener( 'mousedown', gl.onDocumentMouseDown, false );
+	gl.renderer.domElement.addEventListener( 'mousemove', gl.onDocumentMouseMove, false );
+	gl.renderer.domElement.addEventListener( 'mouseup', gl.onDocumentMouseUp, false );
+	gl.renderer.domElement.addEventListener( 'mousewheel', gl.onDocumentMouseWheel, false );
+	gl.renderer.domElement.addEventListener( 'DOMMouseScroll', gl.onDocumentMouseWheel, false);
 
-	container.addEventListener( 'dragover', function ( event ) {
+	gl.renderer.domElement.addEventListener( 'dragover', function ( event ) {
 
 		event.preventDefault();
 		event.dataTransfer.dropEffect = 'copy';
 
 	}, false );
 
-	container.addEventListener( 'dragenter', function ( event ) {
+	gl.renderer.domElement.addEventListener( 'dragenter', function ( event ) {
 
 		container.body.style.opacity = 0.5;
 
 	}, false );
 
-	container.addEventListener( 'dragleave', function ( event ) {
+	gl.renderer.domElement.addEventListener( 'dragleave', function ( event ) {
 
 		container.body.style.opacity = 1;
 
 	}, false );
 
-	container.addEventListener( 'drop', function ( event ) {
+	gl.renderer.domElement.addEventListener( 'drop', function ( event ) {
 
 		event.preventDefault();
 
@@ -97,26 +118,28 @@ gl.init = function (width, height, img) {
 
 	}, false );
 
-	container.addEventListener( 'dblclick', function () {
+	$("#container").bind('dblTap', function () {
         
         if( !gl.isEncodeStarted ) {
+
+            console.log("encoding started!");
 
             gl.encoder.start();
             gl.isEncodeStarted = true;
 
         }
 
-    }
+    });
 
-	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener( 'resize', gl.onWindowResize, false );
 }
 
 gl.onWindowResize = function () {
 
-	gl.camera.aspect = width / height;
+	gl.camera.aspect = gl.width / gl.height;
 	gl.camera.updateProjectionMatrix();
 
-	gl.renderer.setSize( width, height );
+	gl.renderer.setSize( gl.width, gl.height );
 
 }
 
@@ -134,7 +157,7 @@ gl.onDocumentMouseDown = function ( event ) {
 
 }
 
-go.onDocumentMouseMove = function( event ) {
+gl.onDocumentMouseMove = function( event ) {
 
 	if ( gl.isUserInteracting === true ) {
 
@@ -179,22 +202,24 @@ gl.onDocumentMouseWheel = function( event ) {
 
 gl.animate = function () {
 
-	requestAnimationFrame( animate );
+	window.requestAnimationFrame( gl.animate );
 	gl.update();
 
     // Add frames
-	if (gl.isEncodeStarted && gl.frames / gl.fps < 10) {                                                                                    
-	    var readBuffer = new Uint8Array(width * height * 4);
-	    var context = gl.renderer.getContext();
+	if (gl.isEncodeStarted && ((gl.frames / gl.fps) < gl.timeLimit)) {                                                                                    
 	    var canvas = gl.renderer.domElement;
-	    context.readPixels(0, 0, width, height, context.RGBA, context.UNSIGNED_BYTE, readBuffer);
+        var context = canvas.getContext('2d')
 	    
-	    gl.encoder.addFrame(readBuffer, true);
+	    gl.encoder.addFrame(context);
         gl.frames++;
 	}
 	if (gl.frames / gl.fps == 10) {
 	    gl.encoder.finish();
 	    gl.result = encode64(gl.encoder.stream().getData());
+        container.removeChild(gl.renderer.domElement);
+        console.log('finished encoding!');
+        console.log(gl.result);
+        share.shareimg(gl.result, null);
 	}
 }
 
