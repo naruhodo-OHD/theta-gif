@@ -13,7 +13,7 @@ window.requestAnimFrame = (function(){
 
 gl.frames = 0;
 gl.fps = 15;
-gl.timeLimit = 10;
+gl.timeLimit = 5;
 
 gl.camera = null;
 gl.scene = null;
@@ -64,7 +64,8 @@ gl.init = function (width, height, img) {
     texture.needsUpdate = true;
 
 	var material = new THREE.MeshBasicMaterial( {
-		map: texture
+		map: texture,
+        overdraw: true
 	});
 
 	mesh = new THREE.Mesh( geometry, material );
@@ -76,9 +77,25 @@ gl.init = function (width, height, img) {
 	gl.renderer.setSize( gl.width, gl.height );
 	container.appendChild( gl.renderer.domElement );
 
-	gl.renderer.domElement.addEventListener( 'mousedown', gl.onDocumentMouseDown, false );
-	gl.renderer.domElement.addEventListener( 'mousemove', gl.onDocumentMouseMove, false );
-	gl.renderer.domElement.addEventListener( 'mouseup', gl.onDocumentMouseUp, false );
+    var hammertime = new Hammer(container);
+    hammertime.get('tap').set({taps: 2});
+
+    hammertime.on('panstart', gl.onDocumentMouseDown);
+    hammertime.on('panmove', gl.onDocumentMouseMove);
+    hammertime.on('panend', gl.onDocumentMouseUp);
+    hammertime.on('tap', function () {
+        
+        if( !gl.isEncodeStarted ) {
+
+            console.log("encoding started!");
+
+            gl.encoder.start();
+            gl.isEncodeStarted = true;
+
+        }
+
+    });
+
 	gl.renderer.domElement.addEventListener( 'mousewheel', gl.onDocumentMouseWheel, false );
 	gl.renderer.domElement.addEventListener( 'DOMMouseScroll', gl.onDocumentMouseWheel, false);
 
@@ -118,19 +135,6 @@ gl.init = function (width, height, img) {
 
 	}, false );
 
-	$("#container").bind('dblTap', function () {
-        
-        if( !gl.isEncodeStarted ) {
-
-            console.log("encoding started!");
-
-            gl.encoder.start();
-            gl.isEncodeStarted = true;
-
-        }
-
-    });
-
 	window.addEventListener( 'resize', gl.onWindowResize, false );
 }
 
@@ -143,26 +147,32 @@ gl.onWindowResize = function () {
 
 }
 
-gl.onDocumentMouseDown = function ( event ) {
+gl.onDocumentMouseDown = function ( ) {
 
 	event.preventDefault();
 
+    var touch = event.changedTouches[0];
+
 	gl.isUserInteracting = true;
 
-	onPointerDownPointerX = event.clientX;
-	onPointerDownPointerY = event.clientY;
+	onPointerDownPointerX = touch.clientX;
+	onPointerDownPointerY = touch.clientY;
 
 	onPointerDownLon = gl.lon;
 	onPointerDownLat = gl.lat;
 
 }
 
-gl.onDocumentMouseMove = function( event ) {
+gl.onDocumentMouseMove = function( ) {
+
+	event.preventDefault();
+
+    var touch = event.changedTouches[0];
 
 	if ( gl.isUserInteracting === true ) {
 
-		gl.lon = ( onPointerDownPointerX - event.clientX ) * 0.1 + onPointerDownLon;
-		gl.lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
+		gl.lon = ( onPointerDownPointerX - touch.clientX ) * 0.1 + onPointerDownLon;
+		gl.lat = ( touch.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
 
 	}
 
@@ -170,7 +180,7 @@ gl.onDocumentMouseMove = function( event ) {
 
 gl.onDocumentMouseUp = function( event ) {
 
-	gl.isUserInteracting = false;
+	gl.isUserInteractsng = false;
 
 }
 
@@ -210,7 +220,11 @@ gl.animate = function () {
 	    var canvas = gl.renderer.domElement;
         var context = canvas.getContext('2d')
 	    
-	    gl.encoder.addFrame(context);
+        if(frames % 3 == 0) {
+            gl.encoder.addFrame(context);
+            console.log('frame added!');
+        };
+
         gl.frames++;
 	}
 	if (gl.frames / gl.fps == 10) {
