@@ -18,7 +18,7 @@
  */
 window.onload = function(){
     app.initialize();
-    $(document).on('tap', '.share', function(){
+    $(document).on('click', '#share', function(){
         share.shareimg("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D", null);
     });
 };
