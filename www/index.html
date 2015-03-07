@@ -43,6 +43,7 @@
 		<script type="text/javascript" src="js/vendor/CanvasRenderer.js"></script>
 		<script type="text/javascript" src="js/vendor/Projector.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/b64utils.js"></script>
         <script type="text/javascript" src="js/share.js"></script>
         <script type="text/javascript" src="js/gl.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
@@ -51,13 +52,13 @@
     <body>
 				<section id="title" data-role="page">
 					<a href="#take" data-role="button" id="camera"></a>
-					<a href="#library" data-role="button" id="library"></a>
+					<a href="#library" data-role="button" id="album"></a>
 				</section>
 				<section id="take" data-role="page">
 					<div data-role="header"><h1>画像を登録する</h1></div>
                     <div id="camera_discription">写真をアップロード</div>
                     <input type='file' class='file-selector'>upload</input>
-					<a href="#action" data-role="button">アクション画面へ</a>
+					<a href="#action" data-role="button" id="take_camera"></a>
 				</section>
 				<section id="library" data-role="page">
 					<div data-role="header"><h1>ライブラリ画面</h1></div>
