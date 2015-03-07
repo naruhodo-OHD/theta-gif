@@ -1,22 +1,17 @@
 app =
 
-  initialize: -> this.bindEvents()
+	initialize: -> this.bindEvents()
 
-  bindEvents: ->
-    document.addEventListener 'deviceready', this.onDeviceReady, false
+	bindEvents: ->
+		document.addEventListener 'deviceready', this.onDeviceReady, false
 
-  onDeviceReady: ->
-    app.receivedEvent 'deviceready'
+	onDeviceReady: ->
+		app.receivedEvent 'deviceready'
 
-  receivedEvent: (id) ->
-    parentElement = document.getElementById(id)
-    listeningElement = parentElement.querySelector('.listening')
-    receivedElement = parentElement.querySelector('.received'
-
-    listeningElement.setAttribute 'style', 'display:none'
-    receivedElement.setAttribute 'style', 'display:block'
-    
-    console.log 'Received Event: ' + id
-    console.log 'max benri'
+	receivedEvent: (id) ->
+		console.log 'Received Event: ' + id
+		console.log 'my page'
+		($ "#share").click (e) -> share.shareimg("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D",
+																						 "hoge")
 
 window.onload = -> app.initialize()

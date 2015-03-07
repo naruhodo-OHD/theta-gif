@@ -39,11 +39,7 @@
 				<section id="title" data-role="page">
 					<div data-role="header"><h1>タイトル</h1></div>
 					<div class="app">
-							<h1>Apache Cordova</h1>
-							<div id="deviceready" class="blink">
-									<p class="event listening">Connecting to Device</p>
-									<p class="event received">Device is Ready</p>
-							</div>
+							<h1>title</h1>
 							<a href="#take" data-role="button">撮影画面へ</a>
 							<a href="#library" data-role="button">ライブラリ画面へ</a>
 					</div>
@@ -52,13 +48,14 @@
 					<div data-role="header"><h1>撮影画面</h1></div>
 					<a href="#action" data-role="button">アクション画面へ</a>
 				</section>
-				<section id="action" data-role="page">
-					<div data-role="header"><h1>アクション画面</h1></div>
-					<a href="#title" data-role="button">共有</a>
-				</section>
 				<section id="library" data-role="page">
 					<div data-role="header"><h1>ライブラリ画面</h1></div>
 					<a href="#action" data-role="button">アクション画面へ</a>
+				</section>
+				<section id="action" data-role="page">
+					<div data-role="header"><h1>アクション画面</h1></div>
+					<a id="share" href="#title" data-role="button">共有</a>
+					<button onclick="window.plugins.socialsharing.share(null, 'Android filename', 'data:image/png;base64,R0lGODlhDAAMALMBAP8AAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUKAAEALAAAAAAMAAwAQAQZMMhJK7iY4p3nlZ8XgmNlnibXdVqolmhcRQA7', null)">base64 image only</button>
 				</section>
         <script type="text/javascript" src="cordova.js"></script>
         <!-- <script type="text/javascript" src="js/index.js"></script> -->
