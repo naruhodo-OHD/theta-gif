@@ -4,17 +4,8 @@
   "description": "naruhodo test",
   "main": "index.js",
   "dependencies": {
-    "gulp-coffee": "^2.3.1",
-    "browser-sync": "^2.0.1",
-    "gulp-concat": "^2.5.0",
-    "gulp-coffeelint": "^0.4.0",
-    "gulp-sass": "^1.3.3",
-    "gulp": "^3.8.11",
     "cordova-lib": "^4.2.0",
     "cordova": "^4.2.0",
-    "gulp-uglify": "^1.1.0",
-    "run-sequence": "^1.0.2",
-    "gulp-util": "^3.0.3"
   },
   "devDependencies": {
     "coffee-script": "^1.9.0"
