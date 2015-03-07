@@ -44,15 +44,23 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var img = new Image();
-        img.src = 'img/equirectangular.jpg';
+        
+        var file = $("input.file-selector");
+        var fr = new FileReader();
 
-        img.onload = function() {
-            console.log("image loaded!");
-            console.log(img.complete);
-            gl.init(150, 150, img);
-            gl.animate();
-        };
+        file.on("change", function() {
+
+            fr.readAsDataURL(file[0].files[0]);
+            fr.onload = function (e) {
+                var img = new Image();
+                img.src = e.target.result;
+
+                console.log("image loaded!");
+                console.log(img.complete);
+                gl.init(150, 150, img);
+                gl.animate();
+            }
+        });
 
         console.log('Received Event: ' + id);
     }

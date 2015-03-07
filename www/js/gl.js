@@ -13,7 +13,7 @@ window.requestAnimFrame = (function(){
 
 gl.frames = 0;
 gl.fps = 15;
-gl.timeLimit = 5;
+gl.timeLimit = 10;
 
 gl.camera = null;
 gl.scene = null;
@@ -72,12 +72,12 @@ gl.init = function (width, height, img) {
 	
 	gl.scene.add( mesh );
 
-	gl.renderer = new THREE.CanvasRenderer({preserveDrawingBuffer: true});
+	gl.renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
 	gl.renderer.setPixelRatio( window.devicePixelRatio );
 	gl.renderer.setSize( gl.width, gl.height );
 	container.appendChild( gl.renderer.domElement );
 
-    var hammertime = new Hammer(container);
+    var hammertime = new Hammer(gl.renderer.domElement);
     hammertime.get('tap').set({taps: 2});
 
     hammertime.on('panstart', gl.onDocumentMouseDown);
@@ -158,6 +158,8 @@ gl.onDocumentMouseDown = function ( ) {
 
 gl.onDocumentMouseMove = function(touch) {
 
+    event.preventDefault();
+
 	if ( gl.isUserInteracting === true ) {
 
 		gl.lon = -touch.deltaX * 0.1 + onPointerDownLon;
@@ -201,29 +203,35 @@ gl.onDocumentMouseWheel = function( event ) {
 
 gl.animate = function () {
 
-	window.requestAnimationFrame( gl.animate );
 	gl.update();
 
     // Add frames
-	if (gl.isEncodeStarted && ((gl.frames / gl.fps) < gl.timeLimit)) {                                                                                    
+	if (gl.isEncodeStarted && ((gl.frames / gl.fps) < gl.timeLimit)) {
 
-        if (gl.frames % 3 == 0) {
-            var canvas = gl.renderer.domElement;
-            var context = canvas.getContext('2d')
-            gl.encoder.addFrame(context);
-            console.log('Added frame!');
-        }
+        var readBuffer = new Uint8Array(gl.width * gl.height * 4);
+        var context = gl.renderer.getContext();
+        var canvas = gl.renderer.domElement;
+        context.readPixels(0, 0, gl.width, gl.height, context.RGBA, context.UNSIGNED_BYTE, readBuffer);
+        		  
+        gl.encoder.addFrame(readBuffer, true);
 
         gl.frames++;
 	}
 	if (gl.frames / gl.fps == gl.timeLimit) {
 	    gl.encoder.finish();
 	    gl.result = encode64(gl.encoder.stream().getData());
-        container.removeChild(gl.renderer.domElement);
         console.log('finished encoding!');
         console.log(gl.result);
         share.shareimg(gl.result, null);
+
+        var im = new Image();
+        im.src = "data:image/gif;base64," + gl.result;
+
+        $('#container').append(im);
+
+        return true;
 	}
+	window.requestAnimationFrame( gl.animate );
 }
 
 gl.update = function() {
