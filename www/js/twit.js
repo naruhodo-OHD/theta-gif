@@ -1,7 +1,7 @@
+var oauth;
+
 var twitfnc = function(){
 	// oauthオブジェクト
-	var oauth;
-
 	localStorage.setItem("loading",0);
 	firstOAuthFunc();
 };
