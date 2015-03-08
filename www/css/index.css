@@ -151,7 +151,7 @@ h1 {
 }
 
 #camera_discription{
-    margin-top: 25%;
+    /* margin-top: 25%; */
     text-align: center;
 }
 
@@ -161,5 +161,15 @@ h1 {
     background-image:url("../img/camera_icon_circle.png");
     background-size: 100% 100%;
     margin: 0 auto;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
+}
+
+#container {
+    width: auto;
+    height: auto;
+}
+
+canvas {
+    width: auto;
+    height: auto;
 }
