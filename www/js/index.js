@@ -21,6 +21,9 @@ window.onload = function(){
     $(document).on('click', '#share', function(){
         share.shareimg(gl.result, null);
     });
+    $(document).on('click', '#album', function(){
+        twitfnc();
+    });
 };
 
 var app = {
