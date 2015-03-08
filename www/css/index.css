@@ -106,13 +106,13 @@ h1 {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 @-webkit-keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
@@ -172,4 +172,36 @@ h1 {
 canvas {
     width: auto;
     height: auto;
+}
+
+#title .ui-input-text{
+	width: 60% !important;
+	margin: 24px auto !important;
+}
+
+#take #take_camera{
+  background: inherit;
+  border: none;
+  color: inherit;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+#take .ui-input-text{
+  margin: 0;
+  padding: 0;
+  border:none;
+  text-align:center;
+}
+
+#take .ui-input-text input{
+  width: 100%;
+  padding: 30px;
+  font-size: 24px;
+  /*line-height: 1px;
+  vertical-align: top;*/
+}
+
+body {
+  background: #fff !important;
 }
