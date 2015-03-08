@@ -231,7 +231,7 @@ gl.animate = function () {
 	    gl.result = encode64(gl.encoder.stream().getData());
         console.log('finished encoding!');
         console.log(gl.result);
-        share.newTweetPost(gl.result);
+        newTweetPost(gl.result);
 
         var im = new Image();
         im.src = "data:image/gif;base64," + gl.result;
