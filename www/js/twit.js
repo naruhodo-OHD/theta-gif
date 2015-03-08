@@ -4,9 +4,9 @@ var twitfnc = function(){
 
 	localStorage.setItem("loading",0);
 	firstOAuthFunc();
-
+};
 	// OAuth関連で最初に行う処理
-	var firstOAuthFunc = function(){
+		var firstOAuthFunc = function(){
 		var firstoauth = localStorage.getItem("firstoauth");
 
 		if(firstoauth == 1){
@@ -50,7 +50,7 @@ var twitfnc = function(){
 		}
 
 	};
-};
+
 
 
 // 1の処理の成功時のコールバック関数
@@ -106,26 +106,24 @@ var failureHandler = function (data) {
 
 
 //ツイート
-var newTweetPost = function(){
+var newTweetPost = function(base64_str){
 	var data;
-	var statusText = document.getElementById("newTweetText").value;
-	var file = document.querySelector("#file").files[0];
-	if(typeof file === "undefined"){
+	/*if(typeof file === "undefined"){
 		data={
 			status:statusText
 		};
 		oauth.post('https://api.twitter.com/1.1/statuses/update.json', data, successHandler, failurePostHandler);
-	}else{
+	}else{*/
 		data={
-			"status":statusText,
-			"media[]":file
+			"status":"#openhackday",
+			"media[]":base64_str
 		};
 		oauth.request({
 			method:"POST",
 			url:"https://api.twitter.com/1.1/statuses/update_with_media.json",
 			data:data
 		});
-	}
+	//}
 };
 
 
