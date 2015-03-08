@@ -218,7 +218,7 @@ gl.animate = function () {
         var canvas = gl.renderer.domElement;
         context.readPixels(0, 0, gl.width, gl.height, context.RGBA, context.UNSIGNED_BYTE, readBuffer);
 
-        gl.encoder.addFrame(readBuffer.reverse(), true);
+        gl.encoder.addFrame(readBuffer, true);
 
         gl.frames++;
 
