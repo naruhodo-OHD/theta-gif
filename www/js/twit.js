@@ -1,55 +1,57 @@
 var twitfnc = function(){
-// oauthオブジェクト
-var oauth;
+	// oauthオブジェクト
+	var oauth;
 
-localStorage.setItem("loading",0);
-firstOAuthFunc();
-};
-// OAuth関連で最初に行う処理
-var firstOAuthFunc = function(){
-	var firstoauth = localStorage.getItem("firstoauth");
+	localStorage.setItem("loading",0);
+	firstOAuthFunc();
 
-	if(firstoauth == 1){
-		localStorage.setItem("firstoauth",0);
-		// 最初にOAuthオブジェクトに喰わせる値たち
-		var ck = "QrT8jpso0lFGbfvxKd8gy6ypX";
-		var cs = "9vUjT3WahB8ezqjr4aupqanQM6M05gJ0pYEhILMJz1BCblN234";
-		var config = {
-			consumerKey:ck,
-			consumerSecret:cs,
-			requestTokenUrl:"https://api.twitter.com/oauth/request_token",
-			authorizationUrl:"https://api.twitter.com/oauth/authorize",
-			accessTokenUrl:"https://api.twitter.com/oauth/access_token"
-		};
+	// OAuth関連で最初に行う処理
+	var firstOAuthFunc = function(){
+		var firstoauth = localStorage.getItem("firstoauth");
 
-		// OAuthのオブジェクトを作成
-		oauth = new OAuth(config);
+		if(firstoauth == 1){
+			localStorage.setItem("firstoauth",0);
+			// 最初にOAuthオブジェクトに喰わせる値たち
+			var ck = "QrT8jpso0lFGbfvxKd8gy6ypX";
+			var cs = "9vUjT3WahB8ezqjr4aupqanQM6M05gJ0pYEhILMJz1BCblN234";
+			var config = {
+				consumerKey:ck,
+				consumerSecret:cs,
+				requestTokenUrl:"https://api.twitter.com/oauth/request_token",
+				authorizationUrl:"https://api.twitter.com/oauth/authorize",
+				accessTokenUrl:"https://api.twitter.com/oauth/access_token"
+			};
 
-		//保存してあるアクセストークンがあればロードする
-		var accessTokenKey = localStorage.getItem("accessTokenKey");
-		var accessTokenSecret = localStorage.getItem("accessTokenSecret");
-		localStorage.setItem("firstoauth", 1);
-		if(accessTokenKey){
-			oauth.setAccessToken(accessTokenKey, accessTokenSecret);
-		}else{
-			// 1. consumer key と consumer secret を使って、リクエストトークンを取得する
-			oauth.fetchRequestToken(successFetchRequestToken, failureHandler);
-		}
+			// OAuthのオブジェクトを作成
+			oauth = new OAuth(config);
 
-	}else{
-
-		if(window.confirm('Twitterで認証を行ってください')){
+			//保存してあるアクセストークンがあればロードする
+			var accessTokenKey = localStorage.getItem("accessTokenKey");
+			var accessTokenSecret = localStorage.getItem("accessTokenSecret");
 			localStorage.setItem("firstoauth", 1);
+			if(accessTokenKey){
+				oauth.setAccessToken(accessTokenKey, accessTokenSecret);
+			}else{
+				// 1. consumer key と consumer secret を使って、リクエストトークンを取得する
+				oauth.fetchRequestToken(successFetchRequestToken, failureHandler);
+			}
 
-			firstOAuthFunc();
 		}else{
-			window.alert('中止されました');
-			localStorage.setTimeout("firstoauth", 0);
-			return;
-		}
-	}
 
+			if(window.confirm('Twitterで認証を行ってください')){
+				localStorage.setItem("firstoauth", 1);
+
+				firstOAuthFunc();
+			}else{
+				window.alert('中止されました');
+				localStorage.setTimeout("firstoauth", 0);
+				return;
+			}
+		}
+
+	};
 };
+
 
 // 1の処理の成功時のコールバック関数
 var successFetchRequestToken = function (authUrl) {
@@ -65,20 +67,20 @@ var successFetchRequestToken = function (authUrl) {
 	window.open(authUrl2, "");
 	// 4. アプリで用意したダイアログにPIN を入力してもらう
 	timerID = setInterval(function(){
-                         if(document.getElementById("pin_str").value.length >= 7){
-                         nextpin();
-                         clearInterval(timerID);
-                         timerID = null;
-                         }
-                      }, 1000)
+		if(document.getElementById("pin_str").value.length >= 7){
+			nextpin();
+			clearInterval(timerID);
+			timerID = null;
+		}
+	}, 1000)
 	var nextpin = function(){
-	var pin = document.getElementById("pin_str").value;
-	// oauthオブジェクトにPINをセット
-	oauth.setVerifier(pin);
-	localStorage.setItem("firstoauth", 1);
-	// 5. consumer key, consumer secret, リクエストトークン, PIN を使って、アクセストークンを取得する
-	oauth.fetchAccessToken(successFetchAccessToken, failureHandler);
-};
+		var pin = document.getElementById("pin_str").value;
+		// oauthオブジェクトにPINをセット
+		oauth.setVerifier(pin);
+		localStorage.setItem("firstoauth", 1);
+		// 5. consumer key, consumer secret, リクエストトークン, PIN を使って、アクセストークンを取得する
+		oauth.fetchAccessToken(successFetchAccessToken, failureHandler);
+	};
 };
 
 // 5の処理の成功時のコールバック関数
