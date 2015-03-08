@@ -4,9 +4,9 @@ var twitfnc = function(){
 
 	localStorage.setItem("loading",0);
 	firstOAuthFunc();
-
+};
 	// OAuth関連で最初に行う処理
-	var firstOAuthFunc = function(){
+		var firstOAuthFunc = function(){
 		var firstoauth = localStorage.getItem("firstoauth");
 
 		if(firstoauth == 1){
@@ -50,7 +50,7 @@ var twitfnc = function(){
 		}
 
 	};
-};
+
 
 
 // 1の処理の成功時のコールバック関数
