@@ -217,8 +217,8 @@ gl.animate = function () {
         var context = gl.renderer.getContext();
         var canvas = gl.renderer.domElement;
         context.readPixels(0, 0, gl.width, gl.height, context.RGBA, context.UNSIGNED_BYTE, readBuffer);
-        		  
-        gl.encoder.addFrame(readBuffer, true);
+
+        gl.encoder.addFrame(readBuffer.reverse(), true);
 
         gl.frames++;
 
@@ -231,7 +231,7 @@ gl.animate = function () {
 	    gl.result = encode64(gl.encoder.stream().getData());
         console.log('finished encoding!');
         console.log(gl.result);
-        share.shareimg(gl.result, null);
+        share.newTweetPost(gl.result);
 
         var im = new Image();
         im.src = "data:image/gif;base64," + gl.result;
