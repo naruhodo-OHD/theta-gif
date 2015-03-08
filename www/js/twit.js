@@ -53,6 +53,7 @@ var firstOAuthFunc = function(){
 
 // 1の処理の成功時のコールバック関数
 var successFetchRequestToken = function (authUrl) {
+	console.log(oauth);
 	localStorage.setItem("firstoauth", 0);
 	//URLを訂正
 	var tmp = authUrl.indexOf("&");
@@ -93,6 +94,7 @@ var successFetchAccessToken = function () {
 
 // 各処理失敗時のコールバック関数
 var failureHandler = function (data) {
+	console.log(oauth);
 	localStorage.setItem("firstoauth",0);
 	alert("failure");
 };
