@@ -57,7 +57,7 @@
 				<section id="title" data-role="page">
 					<a href="#take" data-role="button" id="camera"></a>
 					<a href="#library" data-role="button" id="album"></a>
-                    <input id="pin_str" type="text" placeholder="input pin" required="" value="1"></input>
+                    <input id="pin_str" type="text" placeholder="input pin" required="" value=""></input>
 				</section>
 				<section id="take" data-role="page">
 					<div data-role="header"><h1>画像を登録する</h1></div>
@@ -75,7 +75,9 @@
                     <div id="progress">
                         <div id="current"></div>
                     </div>
-					<a id="share" href="#title" data-role="button">共有</a>
+					<a id="share" href="#title" data-role="button"><img src="img/share_twi.png" alt="twitterでシェア"></a>
+          <a id="share" href="#title" data-role="button"><img src="img/share_fb.png" alt="Facebookでシェア"></a>
+          <a id="share" href="#title" data-role="button"><img src="img/share_cancel.png" alt="やり直す"></a >
 				</section>
     </body>
 </html>

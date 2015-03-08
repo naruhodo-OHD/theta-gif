@@ -1,11 +1,11 @@
 var gl = {};
 
 window.requestAnimFrame = (function(){
-    return  window.requestAnimationFrame   || 
-        window.webkitRequestAnimationFrame || 
-        window.mozRequestAnimationFrame    || 
-        window.oRequestAnimationFrame      || 
-        window.msRequestAnimationFrame     || 
+    return  window.requestAnimationFrame   ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        window.oRequestAnimationFrame      ||
+        window.msRequestAnimationFrame     ||
         function(/* function */ callback, /* DOMElement */ element){
              window.setTimeout(callback, 1000 / 60);
         };
@@ -69,7 +69,7 @@ gl.init = function (width, height, img) {
 	});
 
 	mesh = new THREE.Mesh( geometry, material );
-	
+
 	gl.scene.add( mesh );
 
 	gl.renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
@@ -84,7 +84,7 @@ gl.init = function (width, height, img) {
     hammertime.on('panmove', gl.onDocumentMouseMove);
     hammertime.on('panend', gl.onDocumentMouseUp);
     hammertime.on('tap', function () {
-        
+
         if( !gl.isEncodeStarted ) {
 
             console.log("encoding started!");
@@ -231,7 +231,7 @@ gl.animate = function () {
 	    gl.result = encode64(gl.encoder.stream().getData());
         console.log('finished encoding!');
         console.log(gl.result);
-        newTweetPost(gl.result);
+        // newTweetPost(gl.result);
 
         var im = new Image();
         im.src = "data:image/gif;base64," + gl.result;

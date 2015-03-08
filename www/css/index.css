@@ -134,7 +134,7 @@ h1 {
 
 #album{
     font-size: 2rem;
-    background-image:url("../img/twitter_button_2_lo.gif");
+    background-image:url("../img/twitter_button_2_lo.png");
     background-size:100% 100%;
     width: 60%;
     margin: 0 auto;
@@ -180,7 +180,6 @@ canvas {
 }
 
 #take #take_camera{
-  background: inherit;
   border: none;
   color: inherit;
   text-shadow: none;
@@ -188,7 +187,7 @@ canvas {
 }
 
 #take .ui-input-text{
-  margin: 0;
+  margin: 0 0 28px;
   padding: 0;
   border:none;
   text-align:center;
@@ -198,10 +197,41 @@ canvas {
   width: 100%;
   padding: 30px;
   font-size: 24px;
+  background-color: #ccc;
   /*line-height: 1px;
   vertical-align: top;*/
 }
 
 body {
   background: #fff !important;
+}
+body section:not(#title){
+  background: #fff !important;
+}
+
+#action img{
+  transform:rotateX(180deg);
+  width:50% !important;
+  height:auto !important;
+}
+#action canvas{
+  width:50% !important;
+  height:auto !important;
+}
+
+#action #share img{
+  transform:rotateX(0deg) !important;
+}
+
+#share{
+  margin:0 auto;
+  padding:0;
+  background-color: #fff;
+  border:none;
+}
+
+#progress{
+  background-color: rgb(120, 250, 0);
+  margin: -7px 0 20px;
+  padding-top:12px;
 }
